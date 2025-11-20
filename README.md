@@ -1,28 +1,22 @@
-# 🌲 Cypress, do Zero à Nuvem ☁️
+# Curso Cypress - do zero a Nuvem
 
-👋 Seja bem-vindo(a)!
+Um projeto exemplo do "Cypress, from Zero of the Cloud" da escola online Talk About Test
 
-É muito bom tê-lo(a) aqui. Tenho certeza que você vai amar esse curso. ❤️
+## Pre-requisitos
+Você deve possuir git 'v2.51.0', Node.js'v22.19.0' e npm'10.9.3' instalado, possuindo as mesmas versões TLS.
 
-## O que você vai aprender?
+## Instalação
+rodar 'npm install' para instalar as dev dependencies.
 
-- Como configurar um projeto Cypress do zero
-- Como visitar páginas locais e remotas
-- Como lidar com os elementos mais comuns encontrados em aplicações web
-- Como testar upload de arquivos
-- Como realizar as mais diversas verificações de resultados esperados
-- Como criar comandos customizados
-- Como lidar com links que abrem em outra aba do navegador
-- Como rodar testes simulando as dimensões de um dispositivo móvel
-- Como resolver os mesmos problemas de diferentes formas, conhecendo a [API do Cypress](https://docs.cypress.io/api/table-of-contents)
-- Como criar uma documentação mínima para seu projeto de testes automatizados
-- Como executar os testes em um _workflow_ de integração contínua sempre que mudanças ocorrerem no código da aplicação (ou dos testes)
-- Como integrar seu _workflow_ de integração contínua com o Cypress Cloud (o serviço de gestão de testes do Cypress na nuvem)
+## Teste
+Para este projeto você pode rodar seus testes em modo desktop ou em visão mobile
 
-## Vamos começar?
+## Desktop
+rode 'npm test' para rodar teste em headless no modo desktop
+Ou, 'npm run cy:open' para abrir na aplicação do Cypress
 
-Vá para a seção [estrutura do curso](./lessons/_course-structure_.md).
+## Mobile
+rode 'npm run test:mobile' para executar os teste em headless na view mobile
+Ou, 'npm run cy:open:mobile' para abrir na aplicação do Cypress na view mobile
 
-___
-
-Este é um curso da **Escola Talking About Testing**.
+Está documentação foi criada por Anderson Ripardo com ajuda do Walmyr na Sessão 10 do curso Cypress - do Zero ao Cloud
