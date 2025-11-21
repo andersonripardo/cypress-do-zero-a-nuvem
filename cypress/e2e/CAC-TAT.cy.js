@@ -9,6 +9,7 @@ it('verificar titulo do app', () => {
 })
     // Cenário de teste 1 - preencher os campos obrigatórios e enviar o formulário
 it('Preencher os campos obrigatórios e enviar o formulário', () => {
+  cy.clock() // Congela o relógio do sistema
     cy.get('#firstName').type('Anderson')
     cy.get('#lastName').type('Silva')
     cy.get('#email').type('anderson@gmail.com')
@@ -16,8 +17,11 @@ it('Preencher os campos obrigatórios e enviar o formulário', () => {
     cy.contains('button', 'Enviar').click()
       // Validação - Verificar se a mensagem de sucesso está visível
     cy.get('.success').should('be.visible', 'Mensagem enviada com sucesso.')
+    cy.tick(3000) // Avança o relógio do sistema em 3 segundos
+    cy.get('.success').should('not.be.visible') // Verifica se a mensagem de sucesso desapareceu
 })
 it('Exibe mensagem de erro com um email inválida', () => {
+  cy.clock() // Congela o relógio do sistema
     cy.get('#firstName').type('Anderson')
     cy.get('#lastName').type('Silva')
     cy.get('#email').type('anderson@gmail,com')
@@ -25,12 +29,16 @@ it('Exibe mensagem de erro com um email inválida', () => {
     cy.contains('button', 'Enviar').click()
       // Validação - Verificar se a mensagem de erro está visível
     cy.get('.error').should('be.visible', 'Valide os campos obrigatórios!')
+    cy.tick(3000) // Avança o relógio do sistema em 3 segundos
+    cy.get('.error').should('not.be.visible') // Verifica se a mensagem de erro desapareceu
+
 }) 
 it('Campo telefone continua vazio quando preenchido com valor não numérico', () => {
     cy.get('#phone').type('abcdefghij').should('have.value', '')
 })
 
 it('Exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', () => {
+  cy.clock() // Congela o relógio do sistema
     cy.get('#firstName').type('Anderson')
     cy.get('#lastName').type('Silva')
     cy.get('#email').type('anderson@gmail.com')
@@ -38,7 +46,9 @@ it('Exibe mensagem de erro quando o telefone se torna obrigatório mas não é p
     cy.get('#phone-checkbox').check()
     cy.contains('button', 'Enviar').click()
       // Validação - Verificar se a mensagem de erro está visível
-    cy.get('.error').should('be.visible', 'Valide os campos obrigatórios!') 
+    cy.get('.error').should('be.visible', 'Valide os campos obrigatórios!')
+    cy.tick(3000) // Avança o relógio do sistema em 3 segundos
+    cy.get('.error').should('not.be.visible') // Verifica se a mensagem de erro desapareceu
     })
 
 it('Preenche e limpa os campos nome, sobrenome, email e telefone', () => {
@@ -48,9 +58,12 @@ it('Preenche e limpa os campos nome, sobrenome, email e telefone', () => {
     cy.get('#phone').type('1234567890').should('have.value', '1234567890').clear().should('have.value', '')
 })
 it('Exibe mensagem de erro sem preencher os campos obrigatórios', () => {
+  cy.clock() // Congela o relógio do sistema
     cy.contains('button', 'Enviar').click()
       // Validação - Verificar se a mensagem de erro está visível
     cy.get('.error').should('be.visible', 'Valide os campos obrigatórios!')
+    cy.tick(3000) // Avança o relógio do sistema em 3 segundos
+    cy.get('.error').should('not.be.visible') // Verifica se a mensagem de erro desapareceu
 })
 
   it('Envia o formulário com sucesso usando um comando customizado', () => {
@@ -108,5 +121,49 @@ it('Exibe mensagem de erro sem preencher os campos obrigatórios', () => {
     cy.contains('a', 'Política de Privacidade').invoke('removeAttr', 'target').click()
     cy.contains('Talking About Testing').should('be.visible')
   })
+
+  it('exibe e oculta as mensagens de sucesso e erro usando .invoke()', () => {
+  cy.get('.success')
+    .should('not.be.visible')
+    .invoke('show')
+    .should('be.visible')
+    .and('contain', 'Mensagem enviada com sucesso.')
+    .invoke('hide')
+    .should('not.be.visible')
+  cy.get('.error')
+    .should('not.be.visible')
+    .invoke('show')
+    .should('be.visible')
+    .and('contain', 'Valide os campos obrigatórios!')
+    .invoke('hide')
+    .should('not.be.visible')
+})
+it('preenche a area de texto usando o comando invoke', () => {
+  cy.get('#open-text-area').invoke('val', 'Texto preenchido via invoke').should('have.value', 'Texto preenchido via invoke')
+})
+
+it('faz uma requisição HTTP', () => {
+  cy.request('https://cac-tat-v3.s3.eu-central-1.amazonaws.com/index.html')
+    .as('getRequest') // Alias para a requisição
+    .its('status')
+    .should('be.equal', 200)
+  cy.get('@getRequest')
+    .its('statusText')
+    .should('be.equal', 'OK')
+  cy.get('@getRequest')
+    .its('body')
+    .should('include', 'CAC TAT')
+    })
+
+    it('encontra o gato escondido', () => {
+      cy.get('#cat')
+        .should('not.be.visible')
+        .invoke('show')
+        .should('be.visible')
+      cy.get('#title')
+        .invoke('text', 'CAT TAT')
+      cy.get('#subtitle')
+        .invoke('text', 'Eu amo gatos!')
+    })
   
 }) // Fechamento do describe
