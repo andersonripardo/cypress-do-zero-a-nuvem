@@ -2,7 +2,7 @@ name: End-to-End Tests
 on: push
 jobs:
   cypress-run:
-    runs-on: ubunto-22.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
